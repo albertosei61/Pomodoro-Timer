@@ -1,6 +1,13 @@
 import time
 import winsound
 import tqdm
+import os
+import select
+import sys
+
+
+
+
 
 # Function to convert time format to seconds
 def get_seconds(time_str):
@@ -9,6 +16,7 @@ def get_seconds(time_str):
 
 # Countdown function
 def countdown(t_second, message, period_type):
+    print("At any time during timer, press ---p--- to pause timer")
     while t_second:
         mins, secs = divmod(t_second, 60) 
         hours, mins = divmod(mins, 60)
@@ -16,15 +24,56 @@ def countdown(t_second, message, period_type):
             timeformat = 'Work time remaining: {:02d}:{:02d}:{:02d}'.format(hours, mins, secs) 
         else:
             timeformat = 'Rest time remaining: {:02d}:{:02d}:{:02d}'.format(hours, mins, secs) 
-
         print(timeformat, end='\r')
-        time.sleep(1)   
+        time.sleep(1)
         t_second -= 1
+        if kbhit():
+            key = getch()
+
+            if key.lower() == 'p':
+                input("Timer paused. Press Enter to continue...")
+
+                #print("Remaining...")
+
+
     print(message)
     winsound.PlaySound("piano_alarm", winsound.SND_ASYNC + winsound.SND_LOOP)
 
+def kbhit():
+    """ Returns True if Keyboard character was hit, False otherwise."""
+    
+    if sys.platform == 'win32':
+        import msvcrt
+        return msvcrt.kbhit()
+    else:
+        import tty
+        import termios
+        dr, dw, de = select.select([sys.stdin], [], [], 0)
+        return dr != []
+    
+def getch():
+    """Waits for a key press and returns a single character string."""
+    if sys.platform == 'win32':
+        import msvcrt
+        return msvcrt.getch().decode()    
+    else:
+        import tty
+        import termios
+        fd = sys.stdin.fileno()
+        old_settings = termios.tcgetattr(fd)
+        try:
+            tty.setraw(sys.stdin.fileno())
+            ch = sys.stdin.read(1)
+        finally:
+            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+        return ch
+
+
+
+
 #Function to stop Alarm
 def stop_alarm():
+
     input("Press Enter to stop the alarm.")
     winsound.PlaySound(None, winsound.SND_ASYNC)
 
@@ -56,3 +105,4 @@ cycle(work_seconds, rest_seconds, cycle_input)
 
 #New Feature- Create an option to pause work and rest timer.#
 #New Feature - Create an option to stop pomodoro in the middle of timer
+#New Feature - Error Handling

@@ -48,6 +48,12 @@ The Pomodoro Technique is a time management method that can help you improve you
 
 The script defines a function `get_seconds` to convert time strings into seconds. The `countdown` function manages the timer, displaying the remaining time and playing an alarm sound at the end. The `cycle` function orchestrates the work and rest periods according to the user's input.
 
+# Future Features
+So far the script uses a piano sound for the timer.
+Feature will use a music catalog to play music during duration of rest.
+
+
+
 ## Contributions
 
 Contributions are welcome! If you have suggestions or want to add new features, feel free to fork the repository and submit a pull request.

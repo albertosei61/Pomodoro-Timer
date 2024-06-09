@@ -103,6 +103,5 @@ rest_seconds = get_seconds(rest_timer)
 # Starting the Pomodoro cycles
 cycle(work_seconds, rest_seconds, cycle_input)
 
-#New Feature- Create an option to pause work and rest timer.#
-#New Feature - Create an option to stop pomodoro in the middle of timer
 #New Feature - Error Handling
+# Handle value errors 
